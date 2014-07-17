@@ -1,0 +1,9 @@
+# Site settings
+name: Your New Jekyll Site
+url: "http://yourdomain.com"
+
+markdown: rdiscount
+exclude:
+  - Gemfile*
+gems:
+  - octopress-wrap-tag

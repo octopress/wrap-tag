@@ -1,0 +1,8 @@
+---
+---
+{% assign some_bool = true %}
+
+## Ink include wrapping
+[- include from plugin -] → {% wrap include test-plugin:some-include.html %}[- {{ yield }} -]{% endwrap %}
+[- Yo Dawg, I heard you like includes. -] → {% wrap include test-plugin:greet.html greeting="Yo Dawg" %}[- {{ yield }} -]{% endwrap %}
+
