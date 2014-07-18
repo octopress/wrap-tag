@@ -29,7 +29,15 @@ Next add it to your gems list in Jekyll's `_config.yml`
 
 ## Usage
 
-Use this just like the Octopress include, render or yield tags, but wrap the output.
+
+### Basic usage
+
+the wrap tag is basically just wrapping Octopress's [include](https://github.com/octopress/include-tag), 
+[render](https://github.com/octopress/render-tag) and [yield](https://github.com/octopress/content-for)
+tags with HTML in a liquid block tag. So all the features are the same. 
+
+The wrap tag supports all the same features that Octopress's [include](https://github.com/octopress/include-tag), 
+[render](https://github.com/octopress/render-tag) and [yield](https://github.com/octopress/content-for) tags support. This also means that `wrap yield` won't output anything if there isn't any content.
 
     {% wrap include post.html %}
       <article>{{ yield }}</article>
@@ -43,12 +51,44 @@ Use this just like the Octopress include, render or yield tags, but wrap the out
       <div class="post-footer">{{ yield }}</div>
     {% endwrap %}
 
-These wrap tags support all the same features that include, render and yield tags support. This also means that `wrap
-yield` won't output anything if there isn't any content. A great use case for `wrap yield` is to add content sections to a
-template which can be easily and optionally filled in a post or page, simply by using the
-[content_for](https://github.com/octopress/content-for) tag.
+### Yield example
 
-Include partials stored as a variable.
+A great use case for `wrap yield` is to add content sections to a
+template which can be easily and optionally filled from a post or page by using the
+[content_for](https://github.com/octopress/content-for) tag. Here's an example.
+
+    // In a page template
+
+    <aside class="sidebar">
+      {% wrap yield sidebar_before %}
+        <section>{{ yield }}</section>
+      {% endwrap %}
+
+      // Regular sidebar content goes here //
+
+      {% wrap yield sidebar_after %}
+        <section>{{ yield }}</section>
+      {% endwrap %}
+    </aside>
+
+Now in any post or page you can add custom content to the sidebar with a content_for tag.
+
+    // In a post
+
+    {% content_for sidebar_before %}
+      <h4>About this post</h4>
+      ...
+    {% endcontent_for %}
+
+This content will appear at the top of the sidebar, wrapped in a `section` element. The `sidebar_after` section won't be
+rendered since it wasn't set in this post.
+
+### Advanced features
+
+The examples below only demonstrate wrapping the include tag for brevity, but as stated earlier, the wrap tag 
+is basically just wrapping Octopress's [include](https://github.com/octopress/include-tag), 
+[render](https://github.com/octopress/render-tag) and [yield](https://github.com/octopress/content-for)
+tags with HTML in a liquid block tag. So all the features are the same. 
 
     // If a page has the following YAML front-matter
     // sidebar: post_sidebar.html
@@ -73,12 +113,10 @@ Include partials conditionally, using `if`, `unless` and ternary logic.
 
 Filter included partials.
 
-    {% include foo.html %}           //=> Yo, what's up
-    {% include foo.html | upcase %}  //=> YO, WHAT'S UP
+    {% wrap include greeting.html %} yo, {{ yield }}{% endwrap %}           //=> yo, what's up?
+    {% wrap include greeting.html %} yo, {{ yield | upcase }}{% endwrap %}  //=> yo, WHAT'S UP?
+    {% wrap include greeting.html | upcase %} Yo, {{ yield }}{% endwrap %}  //=> YO, WHAT'S UP?
 
-Yes, it can handle a complex combination of features… but can you?
-
-    {% include (post ? post_sidebar : page_sidebar) | smart_quotes unless site.theme.sidebar == false %}
 
 ### Include partials with an Octopress Ink plugin.
 
@@ -86,43 +124,20 @@ It's easy to include a partial from an Ink theme or plugin.
 
 Here's the syntax
 
-    {% include [plugin-slug]:[partial-name] %}
+    {% wrap include [plugin-slug]:[partial-name] %}
+    {{ yield }}
+    {% endwrap %}
 
 Some examples:
 
-    {% include theme:sidebar.html %}   // Include the sidebar from a theme plugin
-    {% include twitter:feed.html %}    // Include the feed from a twitter plugin
+    {% wrap include theme:sidebar.html %}   // Include the sidebar from a theme plugin
+      <aside>{{ yield }}</aside>
+    {% endwrap %}
 
-#### Overriding theme/plugin partials
+    {% wrap include twitter:feed.html %}    // Include the feed from a twitter plugin
+      <div class="twitter-feed">{{ yield }}</div>
+    {% endwrap %}
 
-Plugins and themes use this tag internally too. For example, the [octopress-feeds plugin](https://github.com/octopress/feeds/blob/master/assets/pages/article-feed.xml#L10) uses the include tag to
-render partials for the RSS feed.
-
-    {% for post in site.articles %}
-      <entry>
-        {% include feeds:entry.xml %}
-      </entry>
-    {% endfor %}
-
-
-If you want to make a change to the `entry.xml` partial, you could create your own version at `_plugins/feeds/includes/entry.xml`.
-Now whenever `{% include feeds:entry.xml %}` is called, the include tag will use *your* local partial instead of the plugin's partial.
-
-Note: To make overriding partials easier, you can copy all of a plugin's partials to your local override path with the Octopress Ink command:
-
-    octopress ink copy [plugin-slug] [options]
-
-To copy all includes from the feeds plugin, you'd run:
-
-    octopress ink copy feeds --includes
-
-This will copy all of the partials from octopress-feeds to `_plugins/feeds/includes/`. Modify any of the partials, and delete those that you want to be read from the plugin.
-
-To list all partials from a plugin, run:
-
-    octopress ink list [plugin-slug] --includes
-
-Note: When a plugin is updated, your local partials may be out of date, but will still override the plugin's partials. Be sure to watch changelogs and try to keep your modifications current.
 
 ## Contributing
 
