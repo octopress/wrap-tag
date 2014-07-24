@@ -45,7 +45,7 @@ The wrap tag supports all the same features that Octopress's [include](https://g
       <div class="licence-text">{{ yield }}</div>
     {% endwrap %}
 
-    {% wrap yeild post_footer %}
+    {% wrap yield post_footer %}
       <div class="post-footer">{{ yield }}</div>
     {% endwrap %}
 
