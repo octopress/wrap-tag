@@ -5,7 +5,7 @@ require 'octopress-wrap-tag/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "octopress-wrap-tag"
-  spec.version       = Octopress::Tags::WrapTag::VERSION
+  spec.version       = Octopress::Tags::Wrap::VERSION
   spec.authors       = ["Brandon Mathis"]
   spec.email         = ["brandon@imathis.com"]
   spec.summary       = %q{A Liquid block tag which makes it easy to wrap an include, render or yield tag with html}

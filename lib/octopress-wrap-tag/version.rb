@@ -1,7 +1,7 @@
 module Octopress
   module Tags
-    module WrapTag
-      VERSION = "1.0.0"
+    module Wrap
+      VERSION = "1.0.1"
     end
   end
 end

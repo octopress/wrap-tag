@@ -1,5 +1,4 @@
 require "octopress-wrap-tag/version"
-require "octopress-wrap-tag/ink-plugin"
 
 require "octopress-tag-helpers"
 require "octopress-include-tag"
@@ -11,7 +10,7 @@ require "jekyll"
 #
 module Octopress
   module Tags
-    module WrapTag
+    module Wrap
       class Tag < Liquid::Block
 
         def initialize(tag_name, markup, tokens)
@@ -46,13 +45,13 @@ module Octopress
             content = Octopress::Tags::Yield::Tag.new('yield', markup, []).render(context)
           when 'render'
             begin
-              content = Octopress::Tags::RenderTag::Tag.new('render', markup, []).render(context)
+              content = Octopress::Tags::Render::Tag.new('render', markup, []).render(context)
             rescue => error
               error_msg error
             end
           when 'include'
             begin
-              content = Octopress::Tags::IncludeTag::Tag.new('include', markup, []).render(context)
+              content = Octopress::Tags::Include::Tag.new('include', markup, []).render(context)
             rescue => error
               error_msg error
             end
@@ -88,4 +87,15 @@ module Octopress
   end
 end
 
-Liquid::Template.register_tag('wrap', Octopress::Tags::WrapTag::Tag)
+Liquid::Template.register_tag('wrap', Octopress::Tags::Wrap::Tag)
+
+if defined? Octopress::Docs
+  Octopress::Docs.add({
+    name:        "Octopress Wrap Tag",
+    gem:         "octopress-wrap-tag",
+    version:     Octopress::Tags::Wrap::VERSION,
+    description: "Wrap include, render, and yield tags",
+    path:        File.expand_path(File.join(File.dirname(__FILE__), "../")),
+    source_url:  "https://github.com/octopress/wrap-tag"
+  })
+end
