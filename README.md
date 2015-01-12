@@ -1,5 +1,4 @@
 # Octopress Wrap Tag
-# THis is stupid
 
 A Liquid block tag which makes it easy to wrap an include, render or yield tag with html.
 

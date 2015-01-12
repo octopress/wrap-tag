@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.3 - 2015-01-11
+
+- Readme fix
+
 ### 1.0.2 - 2015-01-11
 
 - Removed additional outdated docs
