@@ -31,3 +31,6 @@ partial: foo.html
 {% content_for test %}Testing wrap yield{% endcontent_for %}
 [- Testing wrap yield -] → {% wrap yield test %}[- {{ yield }} -]{% endwrap %}
 
+## Wrap return
+{% wrap return page.partial %}partial: {{ yield }}{% endwrap %}
+'{% wrap return nuthin %}should be blank: {{ yield }}{% endwrap %}'

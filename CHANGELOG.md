@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.1.0 - 2015-04-01
+
+- New: `wrap return` wraps return tag output.
+
 ### 1.0.3 - 2015-01-11
 
 - Readme fix

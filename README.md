@@ -30,12 +30,10 @@ Next add it to your gems list in Jekyll's `_config.yml`
 
 ### Basic usage
 
-the wrap tag is basically just wrapping Octopress's [include](https://github.com/octopress/include-tag), 
+The wrap tag is basically just wrapping Octopress's [include](https://github.com/octopress/include-tag), 
+[return](https://github.com/octopress/return-tag),
 [render](https://github.com/octopress/render-tag) and [yield](https://github.com/octopress/content-for)
-tags with HTML in a liquid block tag. So all the features are the same. 
-
-The wrap tag supports all the same features that Octopress's [include](https://github.com/octopress/include-tag), 
-[render](https://github.com/octopress/render-tag) and [yield](https://github.com/octopress/content-for) tags support. This also means that `wrap yield` won't output anything if there isn't any content.
+tags with HTML in a liquid block tag. This means that the wrap tag,supports conditional output, filters and all the other features these tags offer. This also means that `wrap yield` and `wrap return` won't output anything if there isn't any content.
 
 ```html
 {% wrap include post.html %}
@@ -46,12 +44,16 @@ The wrap tag supports all the same features that Octopress's [include](https://g
   <div class="licence-text">{{ yield }}</div>
 {% endwrap %}
 
-{% wrap yeild post_footer %}
+{% wrap yield post_footer %}
   <div class="post-footer">{{ yield }}</div>
 {% endwrap %}
+
+{% wrap return site.author %}
+  Post by {{ yield }}
+{% endrwap %}
 ```
 
-### Yield example
+### Wrap Yield
 
 A great use case for `wrap yield` is to add content sections to a
 template which can be easily and optionally filled from a post or page by using the
@@ -90,9 +92,11 @@ rendered since it wasn't set in this post.
 ### Advanced features
 
 The examples below only demonstrate wrapping the include tag for brevity, but as stated earlier, the wrap tag 
-is basically just wrapping Octopress's [include](https://github.com/octopress/include-tag), 
-[render](https://github.com/octopress/render-tag) and [yield](https://github.com/octopress/content-for)
-tags with HTML in a liquid block tag. So all the features are the same. 
+supports all the features of the [include](https://github.com/octopress/include-tag), 
+[render](https://github.com/octopress/render-tag), 
+[return](https://github.com/octopress/return-tag) and
+[yield](https://github.com/octopress/content-for)
+tags.
 
 <!-- title:"If a page has this yaml front-matter" -->
 ```html

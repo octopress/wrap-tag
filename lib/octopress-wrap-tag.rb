@@ -4,6 +4,7 @@ require "octopress-tag-helpers"
 require "octopress-include-tag"
 require "octopress-render-tag"
 require "octopress-content-for"
+require "octopress-return-tag"
 require "jekyll"
 
 # Inspired by jekyll-contentblocks https://github.com/rustygeldmacher/jekyll-contentblocks
@@ -36,6 +37,9 @@ module Octopress
           elsif markup =~ /^\s*include\s(.+)/
             markup = $1
             'include'
+          elsif markup =~ /^\s*return\s(.+)/
+            markup = $1
+            'return'
           else
             raise IOError.new "Wrap Failed: {% wrap #{@og_markup}%} - Which type of wrap: inlcude, yield, render? - Correct syntax: {% wrap type path or var [filters] [conditions] %}"
           end
@@ -43,6 +47,10 @@ module Octopress
           case type
           when 'yield'
             content = Octopress::Tags::Yield::Tag.new('yield', markup, []).render(context)
+            return '' if content.nil?
+          when 'return'
+            content = Octopress::Tags::ReturnTag::Tag.new('return', markup, []).render(context)
+            return '' if content.nil?
           when 'render'
             begin
               content = Octopress::Tags::Render::Tag.new('render', markup, []).render(context)
