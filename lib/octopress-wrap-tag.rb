@@ -44,24 +44,39 @@ module Octopress
             raise IOError.new "Wrap Failed: {% wrap #{@og_markup}%} - Which type of wrap: inlcude, yield, render? - Correct syntax: {% wrap type path or var [filters] [conditions] %}"
           end
 
+          # Liquid 3 requires Tag.parse insated of Tag.new
+          parse = Liquid::Tag.respond_to?(:parse)
+
           case type
           when 'yield'
-            content = Octopress::Tags::Yield::Tag.new('yield', markup, []).render(context)
+            if parse
+              content = Octopress::Tags::Yield::Tag.parse('yield', markup, [], {}).render(context)
+            else
+              content = Octopress::Tags::Yield::Tag.new('yield', markup, []).render(context)
+            end
             return '' if content.nil?
           when 'return'
-            content = Octopress::Tags::ReturnTag::Tag.new('return', markup, []).render(context)
+            if parse
+              content = Octopress::Tags::ReturnTag::Tag.parse('return', markup, [], {}).render(context)
+            else
+              content = Octopress::Tags::ReturnTag::Tag.new('return', markup, []).render(context)
+            end
             return '' if content.nil?
           when 'render'
             begin
-              content = Octopress::Tags::Render::Tag.new('render', markup, []).render(context)
+              if parse
+                content = Octopress::Tags::Render::Tag.parse('render', markup, [], {}).render(context)
+              else
+                content = Octopress::Tags::Render::Tag.new('render', markup, []).render(context)
+              end
             rescue => error
               error_msg error
             end
           when 'include'
-            begin
+            if parse
+              content = Octopress::Tags::Include::Tag.parse('include', markup, [], {}).render(context)
+            else
               content = Octopress::Tags::Include::Tag.new('include', markup, []).render(context)
-            rescue => error
-              error_msg error
             end
           end
 

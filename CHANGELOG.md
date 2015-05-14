@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.1.1 - 2015-05-14
+- Support for Jekyll 2 & 3
+
 ### 1.1.0 - 2015-04-01
 
 - New: `wrap return` wraps return tag output.

@@ -9,7 +9,6 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Brandon Mathis"]
   spec.email         = ["brandon@imathis.com"]
   spec.summary       = %q{A Liquid block tag which makes it easy to wrap an include, render or yield tag with html}
-  spec.description   = %q{A Liquid block tag which makes it easy to wrap an include, render or yield tag with html}
   spec.homepage      = "https://github.com/octopress/wrap-tag"
   spec.license       = "MIT"
 
@@ -23,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "octopress-render-tag", "~> 1.0"
   spec.add_runtime_dependency "octopress-content-for", "~> 1.0"
   spec.add_runtime_dependency "octopress-return-tag", "~> 1.0"
-  spec.add_runtime_dependency "jekyll", "~> 2.0"
+  spec.add_runtime_dependency "jekyll", ">= 2.0"
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake"
@@ -31,7 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "octopress-ink"
   spec.add_development_dependency "octopress"
 
-  if RUBY_VERSION >= "2"
-    spec.add_development_dependency "octopress-debugger"
-  end
+  spec.add_development_dependency "octopress-debugger"
 end
